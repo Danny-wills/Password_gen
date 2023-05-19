@@ -1,5 +1,7 @@
 import string # Helps to define alphabets and punctuation marks
 import secrets
+import json
+import os
 
 letters = string.ascii_letters # Provides both lowercase and uppercase letters
 digits = string.digits # PRovides digits 0-9
@@ -10,6 +12,7 @@ alphabet = letters + digits + special_chars
 
 # Password length
 pwd_length = int(input('Password length: '))
+
 while True:
     pwd = ""
 
@@ -19,7 +22,19 @@ while True:
     for i in range(pwd_length):
         pwd += "".join(secrets.choice(alphabet))
     
+    # Checks if the password (pwd) has at least one special character and at least two digits
     if (any(char in special_chars for char in pwd) and sum(char in digits for char in pwd)>=2):
-        break
+        save = input('Do you want to save(y/n): ').capitalize()
+        if save == 'Y':
+            purpose = input('Password is for: ')
+            print('Password Saved!!!')
+            pass_dict = {purpose: pwd}
+            json_dict = json.dumps(pass_dict)
+            # Open (Creates the file if it doesn't exist) the password file and append write the password and the purpose
+            with open('Passwords.txt', 'a') as file:
+                file.write(json_dict + '\n')
+                break
+        else:
+            break
 
 print(pwd)
