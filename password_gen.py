@@ -1,8 +1,7 @@
 import string # Helps to define alphabets and punctuation marks
 import secrets
 import json
-import os
-
+import re
 letters = string.ascii_letters # Provides both lowercase and uppercase letters
 digits = string.digits # PRovides digits 0-9
 special_chars = string.punctuation # Provides punctutation marks {special characters}
@@ -23,7 +22,7 @@ while True:
         pwd += "".join(secrets.choice(alphabet))
     
     # Checks if the password (pwd) has at least one special character and at least two digits
-    if (any(char in special_chars for char in pwd) and sum(char in digits for char in pwd)>=2):
+    if (any(char in special_chars for char in pwd) and sum(char in digits for char in pwd)>=2 and not re.search(r'[\/"@\']', pwd)):
         save = input('Do you want to save(y/n): ').capitalize()
         if save == 'Y':
             purpose = input('Password is for: ')
